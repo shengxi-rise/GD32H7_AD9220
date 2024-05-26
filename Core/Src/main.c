@@ -95,10 +95,10 @@ void dma_config(void) {
     rcu_periph_clock_enable(RCU_DMAMUX);
 //    nvic_config();
 
-    // 这里应该选单还是多呢
+    // 多数据
     dma_multi_data_parameter_struct dma0;
     dma_deinit(DMA0, DMA_CH0);
-    dma_multi_data_para_struct_init(&dma0);         // 查了这么久，突然发现是这个问题，一开始写了，后来为什么删掉了呢
+    dma_multi_data_para_struct_init(&dma0);
     dma0.request = DMA_REQUEST_TIMER0_UP;
     dma0.periph_addr = (uint32_t) (&GPIO_ISTAT(GPIOB));
     dma0.periph_width = DMA_PERIPH_WIDTH_32BIT;
@@ -106,8 +106,6 @@ void dma_config(void) {
     dma0.memory0_addr = (uint32_t) AD9920Buf;
     dma0.memory_width = DMA_PERIPH_WIDTH_32BIT;
     dma0.memory_inc = DMA_MEMORY_INCREASE_ENABLE;   // 地址自增
-//    dma0.memory_burst_width = 0xFFFFFFFFU;              // word
-//    dma0.periph_burst_width = 0xFFFFFFFFU;
     dma0.circular_mode = DMA_CIRCULAR_MODE_DISABLE;     // 循环关闭
     dma0.direction = DMA_PERIPH_TO_MEMORY; // P T M
     dma0.number = 2048;           // 这个是什么配置
